@@ -3,13 +3,22 @@ const path = require('path');
 
 const app = express();
 
+require('dotenv').config();
+
 app.use(express.static(path.join(__dirname, 'public')));
-const homeRouter = require('./routes/homeRoute')
+
 
 app.set('view engine', 'ejs');
 app.set('views', 'views') // default
 
+const homeRouter = require('./routes/homeRoute')
+const todoRouter = require('./routes/todoRoute')
+
+
+
 app.use('/', homeRouter);
+
+app.use('/todo', todoRouter);
 
 
 app.use("/error", (req, res, next) => {

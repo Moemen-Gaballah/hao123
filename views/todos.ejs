@@ -1,0 +1,79 @@
+<%- include('./partials/header') %>
+<%- include('./partials/navbar') %>
+
+<style>
+    .divider:after,
+    .divider:before {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: #eee;
+    }
+
+    input:checked + p{
+        text-decoration: line-through !important;
+    }
+
+    p{
+        margin: 0;
+        font-size: 700;
+    }
+
+</style>
+
+<section class="vh-100" style="background-color: #3da2c3;">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col col-lg-8 col-xl-6">
+                <div class="card rounded-3">
+                    <div class="card-body p-4">
+
+                        <p class="mb-2">
+                            <span class="h2 me-2">Your Tasks</span>
+                            <span class="badge bg-danger">checklist</span>
+                        </p>
+                        <p class="text-muted pb-2">01/01/2022 • ML - 1321</p>
+
+                        <ul class="list-group rounded-0">
+
+                            <%  for(let todo of todos) { %>
+                            <li class="list-group-item border-0 d-flex align-items-center ps-0">
+                                <input class="form-check-input me-3" onclick="updateTodo('<%= todo._id %>')" type="checkbox" value="" aria-label="..."
+                                <% if(todo.isCompleted == true) { %>
+                                   checked
+                                <% } %>
+                                />
+                                <p><%= todo.title %></p>
+                            </li>
+
+                            <% } %>
+
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    function updateTodo(id){
+        url = 'todo/update';
+        console.log(url);
+        $.ajax({
+            type: 'post',
+            url: url,
+            data: {id: id},
+            dataType: 'json',
+            success: function (data) {
+                console.log(data)
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+    }
+</script>
+
+<%- include('partials/footer') %>
